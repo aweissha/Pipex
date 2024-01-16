@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent.c                                           :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 13:29:32 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/16 14:18:00 by aweissha         ###   ########.fr       */
+/*   Created: 2023/10/11 14:14:29 by aweissha          #+#    #+#             */
+/*   Updated: 2023/10/11 14:19:35 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "libft.h"
 
-void	ft_parent(char *command, char *outfile, int *pipe_fd, char **env)
+void	ft_putendl_fd(char *s, int fd)
 {
-	int	id2;
-	
-	id2 = fork();
-	if (id2 == -1)
-		ft_error("Error at second fork of the parent process");
-	if (id2 == 0)
-		// Child process 2 (for executing the second program)
-		ft_child2(command, outfile, pipe_fd, env);
-	else
+	unsigned int	i;
+
+	i = 0;
+	while (s[i])
 	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		waitpid(id2, NULL, 0);		
+		write(fd, &s[i], 1);
+		i++;
 	}
+	write(fd, "\n", 1);
 }
+// int main(void)
+// {
+// 	char s[] = "blablabla";
+// 	ft_putendl_fd(s, 1);
+// }

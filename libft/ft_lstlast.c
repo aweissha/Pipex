@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent.c                                           :+:      :+:    :+:   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 13:29:32 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/16 14:18:00 by aweissha         ###   ########.fr       */
+/*   Created: 2023/11/15 11:58:59 by aweissha          #+#    #+#             */
+/*   Updated: 2023/11/15 12:05:53 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "libft.h"
 
-void	ft_parent(char *command, char *outfile, int *pipe_fd, char **env)
+t_list	*ft_lstlast(t_list *lst)
 {
-	int	id2;
-	
-	id2 = fork();
-	if (id2 == -1)
-		ft_error("Error at second fork of the parent process");
-	if (id2 == 0)
-		// Child process 2 (for executing the second program)
-		ft_child2(command, outfile, pipe_fd, env);
-	else
-	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		waitpid(id2, NULL, 0);		
-	}
+	if (lst == NULL)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
 }

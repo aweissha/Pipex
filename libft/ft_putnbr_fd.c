@@ -1,31 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent.c                                           :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 13:29:32 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/16 14:18:00 by aweissha         ###   ########.fr       */
+/*   Created: 2023/10/11 14:20:37 by aweissha          #+#    #+#             */
+/*   Updated: 2023/10/11 14:57:27 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "libft.h"
 
-void	ft_parent(char *command, char *outfile, int *pipe_fd, char **env)
+void	ft_putnbr_fd(int n, int fd)
 {
-	int	id2;
-	
-	id2 = fork();
-	if (id2 == -1)
-		ft_error("Error at second fork of the parent process");
-	if (id2 == 0)
-		// Child process 2 (for executing the second program)
-		ft_child2(command, outfile, pipe_fd, env);
-	else
+	if (n == -2147483648)
 	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		waitpid(id2, NULL, 0);		
+		ft_putstr_fd("-2", fd);
+		n = 147483648;
 	}
+	if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		n = n * (-1);
+	}
+	if (n >= 10)
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd((n % 10) + '0', fd);
+	}
+	else
+		ft_putchar_fd((n % 10) + '0', fd);
 }
+// int main(void)
+// {
+// 	int n;
+
+// 	n = 123;
+// 	ft_putnbr_fd(n, 1);
+// }

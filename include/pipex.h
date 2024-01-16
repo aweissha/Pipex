@@ -6,7 +6,7 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:43:52 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/10 12:48:53 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:58:41 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <errno.h>
 
 
 

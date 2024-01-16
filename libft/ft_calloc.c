@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent.c                                           :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 13:29:32 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/16 14:18:00 by aweissha         ###   ########.fr       */
+/*   Created: 2023/10/09 13:58:28 by aweissha          #+#    #+#             */
+/*   Updated: 2023/10/09 15:36:09 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "libft.h"
 
-void	ft_parent(char *command, char *outfile, int *pipe_fd, char **env)
+void	*ft_calloc(size_t count, size_t size)
 {
-	int	id2;
-	
-	id2 = fork();
-	if (id2 == -1)
-		ft_error("Error at second fork of the parent process");
-	if (id2 == 0)
-		// Child process 2 (for executing the second program)
-		ft_child2(command, outfile, pipe_fd, env);
-	else
-	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		waitpid(id2, NULL, 0);		
-	}
+	void	*ptr;
+	size_t	total;
+
+	total = count * size;
+	ptr = malloc(total);
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, total);
+	return (ptr);
 }
+
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char *ptr1 = ft_calloc(2, 4);
+// 	char *ptr2 = calloc(2, 4);
+// 	printf("%c\n", ptr1[0]);
+// 	printf("%c\n", ptr2[0]);
+// }

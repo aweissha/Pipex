@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent.c                                           :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 13:29:32 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/16 14:18:00 by aweissha         ###   ########.fr       */
+/*   Created: 2023/10/08 14:03:44 by aweissha          #+#    #+#             */
+/*   Updated: 2023/10/08 14:40:37 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "libft.h"
 
-void	ft_parent(char *command, char *outfile, int *pipe_fd, char **env)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	int	id2;
-	
-	id2 = fork();
-	if (id2 == -1)
-		ft_error("Error at second fork of the parent process");
-	if (id2 == 0)
-		// Child process 2 (for executing the second program)
-		ft_child2(command, outfile, pipe_fd, env);
-	else
+	unsigned char	*a;
+	unsigned char	*b;
+	size_t			i;
+
+	a = (unsigned char *)s1;
+	b = (unsigned char *)s2;
+	i = 0;
+	while (i < n)
 	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		waitpid(id2, NULL, 0);		
+		if (a[i] != b[i])
+			return (a[i] - b[i]);
+		i++;
 	}
+	return (0);
 }
+
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char	s1[] = "";
+// 	char	s2[] = "";
+// 	printf("%i", ft_memcmp(s1, s2, 1));
+// }
