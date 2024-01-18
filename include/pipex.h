@@ -6,7 +6,7 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:43:52 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/17 17:37:11 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:18:49 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,19 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
+typedef struct s_vars
+{
+	char	**argv;
+	int		argc;
+	char	**env;
+	int		*previous_pipe_fd;
+}	t_vars;
 
-
-// void	ft_child2(char *command, char *outfile, int *pipe_fd, char **env);
-void	ft_child1(char **argv, int *pipe_fd, char **env);
-void	ft_parent(char ** argv, int argc, int *pipe_fd, char **env);
-// void	ft_execute_program2(char **command_array, char **env);
+void	ft_fork_recursive(t_vars *vars, int	total_processes, int *previous_pipe_fd);
+t_vars	*ft_init_struct(int argc, char **argv, char **env);
+void	ft_last_child(t_vars *vars, int *previous_pipe_fd);
+void	ft_middle_child(t_vars *vars, int *pipe_fd, int *previous_pipe_fd, int total_processes);
+void	ft_parent(t_vars *vars, int *pipe_fd);
 void	ft_execute(char **command_array, char **env);
 void	ft_redirect_stdout(char *outfile);
 void	ft_redirect_stdin(char *infile);

@@ -6,7 +6,7 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:33:01 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/17 12:43:18 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:16:02 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,30 @@ char	*ft_get_path(char **command_array, char **env)
 			i++;
 	}
 	return (NULL);
+}
+
+void	ft_execute(char **command_array, char **env)
+{
+	char	*path;
+
+	path = ft_get_path(command_array, env);
+	if (path == NULL)
+		ft_error("Program not found in PATH or access denied");
+	command_array[0] = path;
+	execve(path, command_array, env);
+	free(path);
+	ft_error("Executing program failed");
+}
+
+t_vars	*ft_init_struct(int argc, char **argv, char **env)
+{
+	t_vars	*vars;
+	
+	vars = malloc(sizeof(t_vars));
+	if (vars == NULL)
+		ft_error("Memory allocation for struct failed");	
+	vars->argc = argc;
+	vars->argv = argv;
+	vars->env = env;
+	return (vars);
 }
