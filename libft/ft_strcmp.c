@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:07:04 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/19 13:26:58 by aweissha         ###   ########.fr       */
+/*   Created: 2023/12/05 15:02:04 by aweissha          #+#    #+#             */
+/*   Updated: 2023/12/05 15:15:16 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
-
-int	main(int argc, char **argv, char **env)
-{	
-	t_vars	*vars;
-	int		total_processes;
+int    ft_strcmp(char *s1, char *s2)
+{
+	int	i;
 	
-	total_processes = 1;
-	vars = ft_init_struct(argc, argv, env);
-	printf("%d\n", vars->here_doc);
-	if (argc >= 5)
-		ft_fork_recursive(vars, total_processes, NULL);
-	else
-		ft_error("Wrong number of arguments");
-	return (0);
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
 }
+
+// #include <string.h>
+// #include <stdio.h>
+// int main(void)
+// {
+// 	char str1[] = "";
+// 	char str2[] = "";
+// 	printf("%d\n", strcmp(str1, str2));
+// 	printf("%d\n", ft_strcmp(str1, str2));
+// }

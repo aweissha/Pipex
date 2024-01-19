@@ -6,7 +6,7 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:43:52 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/18 13:18:49 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:20:24 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_vars
 	int		argc;
 	char	**env;
 	int		*previous_pipe_fd;
+	int		here_doc;
 }	t_vars;
 
 void	ft_fork_recursive(t_vars *vars, int	total_processes, int *previous_pipe_fd);

@@ -6,11 +6,54 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:29:32 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/18 14:18:57 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:52:11 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
+
+int	ft_limiter(t_vars *vars, char *buffer)
+{
+	int		dup_fd;
+	
+	while (1)
+	{
+		if (ft_strncmp(vars->argv[2], buffer, ft_strlen(vars->argv[2])) == 0)
+			return (1);
+	}
+}
+
+void	ft_heredoc_child(t_vars *vars, int *pipe_fd)
+{
+	char	buffer[ft_strlen(vars->argv[2])];
+	int		bytes_read;
+
+	while (1)
+	{
+		bytes_read = read(STDIN_FILENO, buffer, vars->argv[2]);
+		if (ft_limiter(vars, pipe_fd) == 1)
+			break ;
+		write(pipe_fd[1], buffer, bytes_read);			
+	}
+}
+
+void	ft_here_doc(t_vars *vars)
+{
+	int	fd[2];
+	int	id;
+
+	if (pipe(fd) == -1)
+		ft_error("Error opening here_doc pipe");
+	id = fork();
+	if (id == -1)
+		ft_error("Error forking the parent process");
+	if (id == 0)
+	{
+		ft_heredoc_child(vars, fd);
+	}
+
+	
+}
 
 void	ft_last_child(t_vars *vars, int *previous_pipe_fd)
 {
@@ -18,8 +61,14 @@ void	ft_last_child(t_vars *vars, int *previous_pipe_fd)
 	
 	printf("hello from last child\n");
 
-	ft_redirect_stdin((vars->argv)[1]);
-	command_array = ft_split((vars->argv)[2], ' ');
+	// for here_doc i have to modify the input of this process.
+	if (vars->here_doc == 1)
+	{
+		ft_here_doc(vars);
+	}
+	else
+		ft_redirect_stdin((vars->argv)[1]);
+	command_array = ft_split((vars->argv)[2 + vars->here_doc], ' ');
 	dup2(previous_pipe_fd[1], STDOUT_FILENO);
 	close(previous_pipe_fd[0]);
 	close(previous_pipe_fd[1]);
@@ -64,7 +113,7 @@ void	ft_fork_recursive(t_vars *vars, int	total_processes, int *previous_pipe_fd)
 
 	printf("process %d\n", total_processes);
 	
-	processes_left = (vars->argc) - 3 - total_processes;
+	processes_left = (vars->argc) - 3 - total_processes - vars->here_doc;
 	if (processes_left > 0)
 	{
 		if (pipe(fd) == -1)

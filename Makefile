@@ -1,4 +1,4 @@
-NAME = Pipex
+NAME = pipex
 
 LIBFT = libft/libft.a
 SRC_DIR = src/

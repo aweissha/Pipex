@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:07:04 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/19 13:26:58 by aweissha         ###   ########.fr       */
+/*   Created: 2023/10/20 16:35:01 by aweissha          #+#    #+#             */
+/*   Updated: 2024/01/07 18:08:56 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int	main(int argc, char **argv, char **env)
-{	
-	t_vars	*vars;
-	int		total_processes;
-	
-	total_processes = 1;
-	vars = ft_init_struct(argc, argv, env);
-	printf("%d\n", vars->here_doc);
-	if (argc >= 5)
-		ft_fork_recursive(vars, total_processes, NULL);
-	else
-		ft_error("Wrong number of arguments");
-	return (0);
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+
+char	*get_next_line(int fd, int i);
+int		ft_strlen(const char *s);
+void	*ft_calloc(size_t count, size_t size);
+char	*ft_strchr_mod(char *s, int c);
+char	*ft_strdup_mod(char *s1);
+
+#endif
