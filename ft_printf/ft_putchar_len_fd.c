@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_putchar_len_fd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 15:02:04 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/20 17:09:32 by aweissha         ###   ########.fr       */
+/*   Created: 2023/10/11 13:46:21 by aweissha          #+#    #+#             */
+/*   Updated: 2023/10/18 15:48:06 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(char *s1, char *s2)
+#include "ft_printf.h"
+
+void	ft_putchar_len_fd(int c, int *len, int fd)
 {
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
+	if (write(fd, &c, 1) == -1)
+		(*len) = -1;
+	else
+		(*len)++;
 }
-
-// #include <string.h>
-// #include <stdio.h>
 // int main(void)
 // {
-// 	char str1[] = "";
-// 	char str2[] = "";
-// 	printf("%d\n", strcmp(str1, str2));
-// 	printf("%d\n", ft_strcmp(str1, str2));
+// 	ft_putchar_fd('z', 1);
 // }

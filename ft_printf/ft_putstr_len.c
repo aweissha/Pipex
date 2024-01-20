@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_len_fd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 15:02:04 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/20 17:09:32 by aweissha         ###   ########.fr       */
+/*   Created: 2023/10/11 14:04:19 by aweissha          #+#    #+#             */
+/*   Updated: 2023/10/20 10:43:32 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(char *s1, char *s2)
+#include "ft_printf.h"
+
+void	ft_putstr_len(char *s, int *len)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
+	if (s == NULL)
+	{
+		if (write (1, "(null)", 6) == -1)
+			(*len) = -1;
+		else
+			(*len) += 6;
+	}
+	else
+	{
+		while (s[i] != '\0')
+		{
+			ft_putchar_len_fd(s[i], len, 1);
+			i++;
+			if ((*len) == -1)
+				break ;
+		}
+	}
 }
-
-// #include <string.h>
-// #include <stdio.h>
 // int main(void)
 // {
-// 	char str1[] = "";
-// 	char str2[] = "";
-// 	printf("%d\n", strcmp(str1, str2));
-// 	printf("%d\n", ft_strcmp(str1, str2));
+// 	char s[] = "blablabla";
+// 	ft_putstr_fd(s, 1);
 // }

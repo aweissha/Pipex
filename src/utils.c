@@ -6,7 +6,7 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:33:01 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/19 13:35:06 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/20 18:38:28 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_get_path(char **command_array, char **env)
 	int		i;
 
 	i = 0;
-	while(env[i] != NULL)
+	while (env[i] != NULL)
 	{
 		if (ft_strnstr(env[i], "PATH", ft_strlen(env[i])) != NULL)
 			break ;
@@ -47,28 +47,20 @@ void	ft_execute(char **command_array, char **env)
 
 	path = ft_get_path(command_array, env);
 	if (path == NULL)
-		ft_error("Program not found in PATH or access denied");
+		ft_error("command not found", 127);
 	command_array[0] = path;
 	execve(path, command_array, env);
 	free(path);
-	ft_error("Executing program failed");
-}
-
-int	ft_is_heredoc(char *str)
-{
-	if (ft_strcmp("here_doc", str) == 0)
-		return (1);
-	else 
-		return (0);
+	ft_error("Executing program failed", 1);
 }
 
 t_vars	*ft_init_struct(int argc, char **argv, char **env)
 {
 	t_vars	*vars;
-	
+
 	vars = malloc(sizeof(t_vars));
 	if (vars == NULL)
-		ft_error("Memory allocation for struct failed");
+		ft_error("Memory allocation for struct failed", 1);
 	vars->argc = argc;
 	vars->argv = argv;
 	vars->env = env;

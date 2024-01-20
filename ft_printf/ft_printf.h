@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 16:35:01 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/20 11:09:11 by aweissha         ###   ########.fr       */
+/*   Created: 2023/10/17 12:50:21 by aweissha          #+#    #+#             */
+/*   Updated: 2023/10/20 10:57:05 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000
-# endif
-
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 # include <unistd.h>
-# include <fcntl.h>
 # include <stdlib.h>
+# include <stdarg.h>
 
-char	*get_next_line(int fd, int i);
-int		ft_strlen(const char *s);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_strchr_mod(char *s, int c);
-char	*ft_strdup_mod(char *s1);
+int		ft_printf(const char *string, ...);
+void	ft_putptr(void *p, int *len);
+void	ft_unsigned_putnbr_len(unsigned int n, int *len);
+void	ft_putnbr_hex_len(unsigned int nbr, int *len);
+void	ft_putnbr_hex_upper_len(unsigned int nbr, int *len);
+void	ft_putchar_len_fd(int c, int *len, int fd);
+void	ft_putnbr_len(int n, int *len);
+void	ft_putstr_len(char *s, int *len);
 
 #endif

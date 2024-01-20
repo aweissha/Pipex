@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_unsigned_putnbr_len_fd.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 15:02:04 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/20 17:09:32 by aweissha         ###   ########.fr       */
+/*   Created: 2023/10/17 12:04:32 by aweissha          #+#    #+#             */
+/*   Updated: 2023/10/20 10:50:05 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(char *s1, char *s2)
+#include "ft_printf.h"
+
+void	ft_unsigned_putnbr_len(unsigned int n, int *len)
 {
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
+	if (n >= 10)
+	{
+		ft_unsigned_putnbr_len(n / 10, len);
+		if ((*len) != -1)
+			ft_putchar_len_fd((n % 10) + '0', len, 1);
+	}
+	else
+		if ((*len) != -1)
+			ft_putchar_len_fd((n % 10) + '0', len, 1);
 }
-
-// #include <string.h>
-// #include <stdio.h>
-// int main(void)
-// {
-// 	char str1[] = "";
-// 	char str2[] = "";
-// 	printf("%d\n", strcmp(str1, str2));
-// 	printf("%d\n", ft_strcmp(str1, str2));
-// }

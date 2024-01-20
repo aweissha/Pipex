@@ -6,19 +6,22 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:29:07 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/19 10:01:07 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/20 18:14:42 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-void	ft_redirect_stdout(char *outfile)
+void	ft_redirect_stdout(char *outfile, t_vars *vars)
 {
 	int	fd;
 
-	fd = open(outfile, O_WRONLY | O_TRUNC | O_CREAT,  0644); // O_APPEND fuer here_doc
+	if (vars->here_doc == 1)
+		fd = open(outfile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	else
+		fd = open(outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)
-		ft_error("Error opening outfile");
+		ft_error("Error opening outfile", EXIT_FAILURE);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 }
@@ -29,8 +32,7 @@ void	ft_redirect_stdin(char *infile)
 
 	fd = open(infile, O_RDONLY, 0644);
 	if (fd == -1)
-		ft_error("Error opening the infile");
+		ft_error("pipex: input", EXIT_FAILURE);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
-
