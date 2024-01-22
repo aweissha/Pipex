@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:07:04 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/22 16:33:42 by aweissha         ###   ########.fr       */
+/*   Created: 2024/01/22 16:30:26 by aweissha          #+#    #+#             */
+/*   Updated: 2024/01/22 16:30:28 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,16 @@ int	main(int argc, char **argv, char **env)
 	t_vars	*vars;
 	int		total_processes;
 
-	if (argc == 5)
+	if (argc >= 5)
 	{
 		total_processes = 1;
 		vars = ft_init_struct(argc, argv, env);
+		if (vars->here_doc == 1)
+		{
+			if (argc < 6)
+				ft_free_error("here_doc: wrong number of arguments", 1, vars);
+			ft_here_doc(vars);
+		}
 		ft_fork_recursive(vars, total_processes, NULL);
 	}
 	else

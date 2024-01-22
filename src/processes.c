@@ -6,7 +6,7 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:29:32 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/20 18:05:35 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:42:15 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ void	ft_last_child(t_vars *vars, int *prev_pipe)
 {
 	char	**command_array;
 
-	if (vars->here_doc == 1)
+	if (vars->here_doc == 1 && vars->argc > 5)
 	{
 		dup2(vars->here_doc_pipe_fd[0], STDIN_FILENO);
 		close(vars->here_doc_pipe_fd[0]);
 	}
 	else
-		ft_redirect_stdin((vars->argv)[1]);
+		ft_redirect_stdin((vars->argv)[1], vars);
 	command_array = ft_split((vars->argv)[2 + vars->here_doc], ' ');
 	dup2(prev_pipe[1], STDOUT_FILENO);
 	close(prev_pipe[0]);
 	close(prev_pipe[1]);
-	ft_execute(command_array, vars->env);
+	ft_execute(command_array, vars);
 }
 
 void	ft_child(t_vars *vars, int *pipe_fd, int *prev_pipe, int processes)
@@ -42,7 +42,7 @@ void	ft_child(t_vars *vars, int *pipe_fd, int *prev_pipe, int processes)
 	close(pipe_fd[1]);
 	close(prev_pipe[0]);
 	close(prev_pipe[1]);
-	ft_execute(command_array, vars->env);
+	ft_execute(command_array, vars);
 }
 
 void	ft_parent(t_vars *vars, int *pipe_fd)
@@ -50,12 +50,12 @@ void	ft_parent(t_vars *vars, int *pipe_fd)
 	char	**command_array;
 
 	close(vars->here_doc_pipe_fd[0]);
+	ft_redirect_stdout((vars->argv)[(vars->argc) - 1], vars);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	command_array = ft_split((vars->argv)[(vars->argc) - 2], ' ');
-	ft_redirect_stdout((vars->argv)[(vars->argc) - 1], vars);
-	ft_execute(command_array, vars->env);
+	ft_execute(command_array, vars);
 }
 
 void	ft_fork_recursive(t_vars *vars, int processes, int *prev_pipe)
@@ -68,10 +68,10 @@ void	ft_fork_recursive(t_vars *vars, int processes, int *prev_pipe)
 	if (processes_left > 0)
 	{
 		if (pipe(fd) == -1)
-			ft_error("Error opening the first pipe", EXIT_FAILURE);
+			ft_free_error("Error opening pipe", EXIT_FAILURE, vars);
 		id = fork();
 		if (id == -1)
-			ft_error("Error forking the parent process", EXIT_FAILURE);
+			ft_free_error("Error forking", EXIT_FAILURE, vars);
 		if (id == 0)
 			ft_fork_recursive(vars, processes + 1, fd);
 		else if (id != 0 && processes == 1)

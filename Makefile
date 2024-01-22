@@ -19,14 +19,23 @@ SRCS = 		$(SRC_DIR)pipex.c \
 			$(SRC_DIR)error.c \
 			$(SRC_DIR)here_doc.c \
 
+SRCS_B = 	$(SRC_DIR)pipex_bonus.c \
+			$(SRC_DIR)processes.c \
+			$(SRC_DIR)child_utils.c \
+			$(SRC_DIR)utils.c \
+			$(SRC_DIR)error.c \
+			$(SRC_DIR)here_doc.c \
+
+
 OBJS = $(SRCS:.c=.o)
+OBJS_B = $(SRCS_B:.c=.o)
 
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(GETNEXTLINE) $(PRINTF) -o $(NAME)
 
-$(NAME_B): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(GETNEXTLINE) $(PRINTF) -o $(NAME_B)
+$(NAME_B): $(OBJS_B)
+	$(CC) $(CFLAGS) $(OBJS_B) $(LIBFT) $(GETNEXTLINE) $(PRINTF) -o $(NAME_B)
 
 all: $(NAME)
 
@@ -34,6 +43,7 @@ bonus: $(NAME_B)
 
 clean:
 	$(RM) $(OBJS)
+	$(RM) $(OBJS_B)
 
 fclean: clean
 	$(RM) $(NAME)
