@@ -6,7 +6,7 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:35:59 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/22 15:05:51 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:47:08 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_heredoc_read(t_vars *vars, int *pipe_fd)
 	while (1)
 	{
 		line = get_next_line(STDIN_FILENO, 0);
+		if (line == NULL)
+			ft_free_error("Get_next_line error", EXIT_FAILURE, vars);
 		if (ft_strncmp(vars->argv[2], line, (ft_strlen(line) - 1)) == 0
 			&& ft_strncmp(vars->argv[2], line, (ft_strlen(vars->argv[2]))) == 0)
 		{

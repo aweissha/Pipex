@@ -8,7 +8,7 @@ GETNEXTLINE = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 SRC_DIR = src/
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Werror -Wextra
 RM = rm -f
 
 

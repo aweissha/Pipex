@@ -6,7 +6,7 @@
 /*   By: aweissha <aweissha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 13:29:32 by aweissha          #+#    #+#             */
-/*   Updated: 2024/01/22 16:42:15 by aweissha         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:49:49 by aweissha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@ void	ft_last_child(t_vars *vars, int *prev_pipe)
 
 	if (vars->here_doc == 1 && vars->argc > 5)
 	{
-		dup2(vars->here_doc_pipe_fd[0], STDIN_FILENO);
+		if (dup2(vars->here_doc_pipe_fd[0], STDIN_FILENO) == -1)
+			ft_free_error("Error redirecting STDIN", EXIT_FAILURE, vars);
 		close(vars->here_doc_pipe_fd[0]);
 	}
 	else
 		ft_redirect_stdin((vars->argv)[1], vars);
+	if (dup2(prev_pipe[1], STDOUT_FILENO) == -1)
+		ft_free_error("Error redirecting STDOUT", EXIT_FAILURE, vars);
 	command_array = ft_split((vars->argv)[2 + vars->here_doc], ' ');
-	dup2(prev_pipe[1], STDOUT_FILENO);
+	if (command_array == NULL)
+		ft_free_error("ft_split failed", EXIT_FAILURE, vars);
 	close(prev_pipe[0]);
 	close(prev_pipe[1]);
 	ft_execute(command_array, vars);
@@ -34,10 +38,15 @@ void	ft_child(t_vars *vars, int *pipe_fd, int *prev_pipe, int processes)
 {
 	char	**command_array;
 
-	close(vars->here_doc_pipe_fd[0]);
-	dup2(pipe_fd[0], STDIN_FILENO);
+	if (vars->here_doc != 0)
+		close(vars->here_doc_pipe_fd[0]);
+	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+		ft_free_error("Error redirecting STDIN", EXIT_FAILURE, vars);
+	if (dup2(prev_pipe[1], STDOUT_FILENO) == -1)
+		ft_free_error("Error redirecting STDOUT", EXIT_FAILURE, vars);
 	command_array = ft_split((vars->argv)[(vars->argc) - 1 - processes], ' ');
-	dup2(prev_pipe[1], STDOUT_FILENO);
+	if (command_array == NULL)
+		ft_free_error("ft_split failed", EXIT_FAILURE, vars);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	close(prev_pipe[0]);
@@ -49,12 +58,16 @@ void	ft_parent(t_vars *vars, int *pipe_fd)
 {
 	char	**command_array;
 
-	close(vars->here_doc_pipe_fd[0]);
+	if (vars->here_doc != 0)
+		close(vars->here_doc_pipe_fd[0]);
 	ft_redirect_stdout((vars->argv)[(vars->argc) - 1], vars);
-	dup2(pipe_fd[0], STDIN_FILENO);
+	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+		ft_free_error("Error redirecting STDIN", EXIT_FAILURE, vars);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	command_array = ft_split((vars->argv)[(vars->argc) - 2], ' ');
+	if (command_array == NULL)
+		ft_free_error("ft_split failed", EXIT_FAILURE, vars);
 	ft_execute(command_array, vars);
 }
 
